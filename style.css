@@ -1,0 +1,912 @@
+/* ====================================
+   TABLE OF CONTENTS
+   ------------------------------------
+   1.  Root & Global Styles
+   2.  Utility Classes (Container, Buttons)
+   3.  Header & Navigation (with pure CSS toggle)
+   4.  Hero Section
+   5.  About Section
+   6.  Skills Section
+   7.  Projects Section
+   8.  Experience Section (Timeline)
+   9.  Contact Section
+   10. Footer
+   11. Animations (Keyframes)
+   12. Responsive Design (Media Queries)
+======================================= */
+
+/* ===== 1. Root & Global Styles ===== */
+:root {
+    --bg-color: #121212;         /* Dark background */
+    --surface-color: #1e1e1e;   /* Slightly lighter surface (cards) */
+    --card-color: #2a2a2a;      /* Even lighter card color */
+    --primary-color: #00A896;   /* Teal/Android-like accent */
+    --primary-hover: #007a6b;   /* Darker teal for hover */
+    --text-primary: #f0f0f0;    /* Primary text (light gray) */
+    --text-secondary: #aaaaaa;  /* Secondary text (dimmer) */
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    --border-radius: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    /* Sets the base font size for rem units */
+    font-size: 16px; 
+}
+
+body {
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--primary-hover);
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+h1 { font-size: 3.5rem; }
+h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--primary-color);
+    position: relative;
+}
+
+/* Adds a simple underline to section headers */
+h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--primary-color);
+    margin: 0.5rem auto 0;
+    border-radius: 2px;
+}
+
+section {
+    padding: 6rem 0;
+}
+
+/* ===== 2. Utility Classes (Container, Buttons) ===== */
+.container {
+    max-width: 1700px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.75rem;
+    border-radius: 50px; /* Pill shape */
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* ===== 3. Header & Navigation ===== */
+.navbar {
+    background-color: rgba(30, 30, 30, 0.9); /* Semi-transparent bg */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    border-bottom: 1px solid #333;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    /* --- NEW CODER STYLES --- */
+    font-family: 'Consolas', 'Courier New', monospace; 
+    letter-spacing: 1px;
+    color: var(--primary-color); /* Use the accent color */
+}
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    color: var(--text-primary);
+    font-weight: 400;
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+/* Underline animation */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a:focus::after {
+    width: 100%;
+}
+
+/* Pure CSS Mobile Menu: Hide checkbox and toggle label */
+.nav-toggle {
+    display: none;
+}
+.nav-toggle-label {
+    display: none;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    position: relative;
+}
+
+.nav-toggle-label span,
+.nav-toggle-label span::before,
+.nav-toggle-label span::after {
+    display: block;
+    background: var(--text-primary);
+    width: 100%;
+    height: 3px;
+    border-radius: 2px;
+    position: absolute;
+    transition: all 0.3s ease;
+}
+
+.nav-toggle-label span::before {
+    content: '';
+    top: -8px;
+}
+
+.nav-toggle-label span::after {
+    content: '';
+    top: 8px;
+}
+
+/* ===== 4. Hero Section ===== */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 70px; /* Offset for fixed navbar */
+    background: var(--bg-color);
+}
+
+.hero-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.hero-content {
+    flex: 2;
+    animation: slideInFromLeft 0.8s ease-out;
+}
+
+.hero-content .intro {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    font-weight: 400;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+}
+
+.hero-content .role {
+    font-size: 1.75rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.hero-content .tagline {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    max-width: 500px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 1.2s ease-out 0.4s;
+    opacity: 0; /* Set by animation */
+    animation-fill-mode: forwards;
+}
+
+.hero-image .fa-android {
+    font-size: 18rem;
+    color: var(--primary-color);
+    opacity: 0.5;
+    text-shadow: 0 0 30px var(--primary-hover);
+}
+
+/* ===== 5. About Section ===== */
+.about {
+    background: var(--surface-color);
+}
+
+.about-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+.about-image {
+    flex: 1;
+}
+
+.about-image img {
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    border: 3px solid var(--primary-color);
+}
+
+.about-text {
+    flex: 2;
+}
+
+.about-text h3 {
+    font-size: 1.75rem;
+    color: var(--text-primary);
+}
+
+.about-text p {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+/* ===== 6. Skills Section ===== */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.skill-category {
+    background: var(--surface-color);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--primary-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skill-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.skill-category > .fa-solid,
+.skill-category > .fa-brands {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.skill-category h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.skill-category ul li {
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.skill-category ul li .fa-brands,
+.skill-category ul li .fa-solid {
+    color: var(--primary-color);
+    opacity: 0.8;
+}
+
+/* ===== 7. Projects Section ===== */
+.projects {
+    background: var(--bg-color);
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 2fr));
+    gap: 1.5rem;
+}
+
+.project-card {
+    background: var(--surface-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.project-card img {
+    width: 100%;
+    height: 400px; /* Fixed height for images */
+    object-fit: cover;
+}
+
+.project-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Makes content fill the card */
+}
+
+.project-content h3 {
+    font-size: 1.3rem;
+}
+
+.project-content p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    flex-grow: 1; /* Pushes links to the bottom */
+}
+
+.tech-stack {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tech-stack span {
+    background: var(--card-color);
+    color: var(--primary-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.project-links .btn-link {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+.project-links .btn-link .fa-github {
+    margin-right: 0.5rem;
+}
+
+/* ====================================
+   8. Experience & Education Section (Timeline)
+   ------------------------------------
+   NOTE: This uses the existing timeline class but adds alternating
+   left/right positioning using Flexbox and :nth-child(even).
+======================================= */
+.timeline {
+    position: relative;
+    max-width: 900px; /* Increased width to accommodate left/right separation */
+    margin: 0 auto;
+}
+
+/* The vertical line (still centered) */
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    background: var(--primary-color);
+    top: 0;
+    bottom: 0;
+    left: 50%; /* Center the line */
+    margin-left: -2px;
+    opacity: 0.3;
+}
+
+.timeline-item {
+    padding: 10px 0;
+    position: relative;
+    width: 50%;
+    margin-bottom: 20px;
+}
+
+/* Base style for content boxes (right side) */
+.timeline-item .timeline-content {
+    background: var(--card-color);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    /* For the triangle/pointer */
+    position: relative; 
+}
+
+/* Items on the LEFT side (even children) */
+.timeline-item:nth-child(even) {
+    left: 0;
+    padding-right: 30px; /* Spacing for the vertical line */
+}
+
+/* Items on the RIGHT side (odd children) */
+.timeline-item:nth-child(odd) {
+    left: 50%;
+    padding-left: 30px; /* Spacing for the vertical line */
+}
+
+/* The circle on the timeline */
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    top: 35px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    border: 3px solid var(--surface-color); /* Matches card/surface color */
+    z-index: 1;
+}
+
+/* Position circle for LEFT items */
+.timeline-item:nth-child(even)::before {
+    right: -10px; /* Relative to the left item */
+}
+
+/* Position circle for RIGHT items */
+.timeline-item:nth-child(odd)::before {
+    left: -10px; /* Relative to the right item */
+}
+
+/* Adding a directional pointer/triangle to content boxes */
+
+/* Pointer for RIGHT items (triangle on the left) */
+.timeline-item:nth-child(odd) .timeline-content::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 25px;
+    left: -15px; /* Position next to the line */
+    border: medium solid var(--card-color);
+    border-width: 10px 15px 10px 0;
+    border-color: transparent var(--card-color) transparent transparent;
+}
+
+/* Pointer for LEFT items (triangle on the right) */
+.timeline-item:nth-child(even) .timeline-content::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 25px;
+    right: -15px; /* Position next to the line */
+    border: medium solid var(--card-color);
+    border-width: 10px 0 10px 15px;
+    border-color: transparent transparent transparent var(--card-color);
+}
+
+
+/* Media Query Adjustment for Mobile (Stacking) */
+@media (max-width: 768px) {
+    /* Stack all timeline items vertically */
+    .timeline::after {
+        left: 15px; /* Push vertical line to the left */
+    }
+
+    .logo {
+    font-size: 1.1rem;
+}
+    .timeline-item {
+        width: 100%;
+        left: 0 !important; /* Force all items to 100% width and left alignment */
+        padding-left: 45px; /* Give room for the dot and line */
+        padding-right: 15px;
+    }
+    
+    /* Position the dot on the left for all items */
+    .timeline-item::before {
+        left: 15px;
+        margin-left: -8px;
+    }
+    
+    /* Remove the directional pointers/triangles on small screens */
+    .timeline-item .timeline-content::before {
+        display: none;
+    }
+}
+
+/* ===== 9. Contact Section ===== */
+.contact-content {
+    display: flex;
+    gap: 3rem;
+}
+
+.contact-form {
+    flex: 1;
+    background: var(--surface-color);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+}
+
+.contact-info {
+    flex: 1;
+}
+
+.contact-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.contact-info p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+.info-item .fa-solid {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.social-links {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1.5rem;
+}
+.social-links a {
+    font-size: 2rem;
+    color: var(--text-secondary);
+}
+.social-links a:hover {
+    color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: var(--border-radius);
+    border: 1px solid #444;
+    background: var(--card-color);
+    color: var(--text-primary);
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-hover);
+}
+
+.form-note {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.form-note .fa-solid {
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+}
+
+button[disabled] {
+    background-color: #555;
+    color: #999;
+    cursor: not-allowed;
+}
+button[disabled]:hover {
+    transform: none;
+    background-color: #555;
+}
+
+/* ===== 10. Footer ===== */
+footer {
+    text-align: center;
+    padding: 2rem 0;
+    background: var(--surface-color);
+    border-top: 1px solid #333;
+    margin-top: 4rem;
+}
+
+footer p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* ===== 11. Animations (Keyframes) ===== */
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 0.5; /* Match the final opacity of the icon */
+        transform: scale(1);
+    }
+}
+
+
+/* ===== 12. Responsive Design (Media Queries) ===== */
+
+/* Medium devices (tablets, less than 992px) */
+@media (max-width: 992px) {
+    .hero-content h1 {
+        font-size: 3rem;
+    }
+    .hero-content .role {
+        font-size: 1.5rem;
+    }
+    .hero-image .fa-android {
+        font-size: 12rem;
+    }
+}
+
+/* Small devices (tablets and large phones, less than 768px) */
+@media (max-width: 780px) {
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
+    
+    /* ----- Mobile Navigation ----- */
+    .nav-toggle-label {
+        margin-top: 23px;
+        display: block; /* Show hamburger */
+    }
+
+    .nav-links {
+        display: none; /* Hide nav links by default */
+        position: absolute;
+        top: 70px; /* Below navbar */
+        left: 0;
+        width: 100%;
+        background: var(--surface-color);
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid #333;
+    }
+
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-links a {
+        display: block;
+        padding: 1rem;
+        width: 100%;
+    }
+    .nav-links a:hover {
+        background: var(--card-color);
+    }
+    .nav-links a::after {
+        display: none; /* Remove underline animation on mobile */
+    }
+
+    /* This shows the menu when the checkbox is checked */
+    .nav-toggle:checked ~ nav .nav-links {
+        display: flex;
+    }
+    
+    /* Hamburger animation to 'X' */
+    .nav-toggle:checked ~ .nav-toggle-label span {
+        background: transparent; /* Hide middle line */
+    }
+    .nav-toggle:checked ~ .nav-toggle-label span::before {
+        transform: rotate(45deg);
+        top: 0;
+    }
+    .nav-toggle:checked ~ .nav-toggle-label span::after {
+        transform: rotate(-45deg);
+        top: 0;
+    }
+
+    /* ----- Responsive Sections ----- */
+    .hero {
+        text-align: center;
+    }
+    .hero-container {
+        flex-direction: column-reverse; /* Image on top */
+        padding-top: 2rem;
+    }
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .about-content {
+        flex-direction: column;
+    }
+
+    .contact-content {
+        flex-direction: column;
+    }
+
+    .timeline::after {
+        left: 15px;
+    }
+    .timeline-item {
+        padding-left: 3rem;
+    }
+    .timeline-item::before {
+        left: 15px;
+    }
+}
+
+/* Extra small devices (phones, less than 576px) */
+@media (max-width: 576px) {
+    .container {
+        padding: 0 1rem;
+    }
+    section {
+        padding: 4rem 0;
+    }
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+    .hero-content .role {
+        font-size: 1.2rem;
+    }
+    .hero-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .hero-image .fa-android {
+        font-size: 10rem;
+    }
+    .projects-grid {
+        grid-template-columns: 1fr; /* Stack project cards */
+    }
+}
+
+
+
+/* ===== Popup Fade Animation ===== */
+.form-popup {
+    display: flex; /* Keep as flex for centering */
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.form-popup.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.form-popup-content {
+    background: var(--surface-color);
+    padding: 2rem 3rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    max-width: 400px;
+    box-shadow: var(--shadow);
+    color: var(--text-primary);
+    transform: scale(0.9);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    opacity: 0;
+}
+
+.form-popup.show .form-popup-content {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.success-icon {
+    color: #007a6b;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.error-icon {
+    color: #f44336;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
